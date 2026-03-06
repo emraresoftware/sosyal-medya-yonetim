@@ -1,0 +1,29 @@
+{
+  "_comment": "EmareCloud Deploy Manifesti — Bu dosya EmareCloud paneli tarafından okunur. Manuel değiştirme.",
+  "slug": "emaresosyal",
+  "name": "Emare Sosyal Medya Yönetim Aracı",
+  "github_repo": "emraresoftware/emaresosyal",
+  "branch": "main",
+  "dc": "local",
+  "server_host": "",
+  "server_ssh_port": 22,
+  "remote_path": "/opt/emaresosyal",
+  "stack": "python-gunicorn",
+  "port": 8331,
+  "webroot": "/opt/emaresosyal",
+  "domain": "",
+  "pre_deploy": [],
+  "deploy_commands": [
+    "cd /opt/emaresosyal",
+    "git pull origin main",
+    "source venv/bin/activate",
+    "pip install -r backend/requirements.txt --quiet",
+    "cd frontend && npm install --production && npm run build && cd ..",
+    "systemctl restart emaresosyal"
+  ],
+  "restart_command": "systemctl restart emaresosyal",
+  "health_check_url": "http://localhost:8331",
+  "webhooks_enabled": true,
+  "auto_deploy_on_push": true,
+  "notify_on_fail": true
+}
